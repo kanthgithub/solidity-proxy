@@ -9,6 +9,6 @@ module.exports = function(deployer, networks, accounts) {
     const constructorData = con.methods.launch('ArithmeticLogic').encodeABI();
     console.log('about to deploy proxy with constructor data: '+constructorData);
     deployer.deploy(arithmeticProxy, constructorData, a.address).then( res => console.log('Proxy deployed at: '+res.address))
-                                            .catch(err => console.log(err.message))
+                                            .catch(err => console.log(err.message));
     });
 };
