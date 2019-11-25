@@ -8,7 +8,9 @@ module.exports = function(deployer, networks, accounts) {
     let con = new web3.eth.Contract(a.abi, a.address, { address: a.address });
     const constructorData = con.methods.launch('ArithmeticLogic').encodeABI();
     console.log('about to deploy proxy with constructor data: '+constructorData);
-    deployer.deploy(arithmeticProxy, constructorData, a.address).then( res => console.log('Proxy deployed at: '+res.address))
-                                            .catch(err => console.log(err.message));
-    });
+    deployer.deploy(arithmeticProxy, constructorData, a.address).then(
+        function(resp,error) {
+            if(!error){  console.log('inside proxy dep'); return resp;  }
+  }).catch(err => console.log(err.message));
+    }).then( () => console.log('AFTER PROXY DEP'));
 };
