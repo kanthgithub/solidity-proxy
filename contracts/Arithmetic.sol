@@ -1,10 +1,10 @@
-pragma solidity ^0.5.0;
+pragma solidity ^0.5.1;
 
 contract Arithmetic {
 
     event addEvent(uint256 indexed sum, uint256 a, uint256 b);
     event substractEvent(uint256 indexed substract, uint256 a, uint256 b);
-     string private name;
+     string public name;
 
      function launch(string memory  _name) public {
         name = _name;
