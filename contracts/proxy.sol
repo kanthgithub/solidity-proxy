@@ -1,7 +1,8 @@
 pragma solidity ^0.5.0;
 
-contract addnumbersproxy {
-  address internal callee;
+contract proxy {
+  address internal addcallee;
+  address internal subcallee;
 
   /**
    * @dev Fallback function.
@@ -13,10 +14,22 @@ contract addnumbersproxy {
 
   /**
    * @dev Set contract to be called by the AccountProxy
-   * @param _callee to set.
+   * @param _addcallee to set.
    */
-  function setCallee(address _callee) external {
-    callee = _callee;
+  function setAddCallee(address _addcallee) external {
+    addcallee = _addcallee;
+  }
+
+   function setSubCallee(address _subcallee) external {
+    subcallee = _subcallee;
+  }
+
+  function getAddCallee() public returns (address) {
+    return  addcallee;
+  }
+
+    function getSubCallee() public returns (address) {
+    return  subcallee;
   }
 
   /**
@@ -51,15 +64,9 @@ contract addnumbersproxy {
    * Can be redefined in derived contracts to add functionality.
    * Redefinitions must call super._willFallback().
    */
-  function _willFallback() internal {
+  function _fallback() internal {
+    revert();
   }
 
-  /**
-   * @dev fallback implementation.
-   * Extracted to enable manual triggering.
-   */
-  function _fallback() internal {
-    _willFallback();
-    _call(callee);
-  }
+ 
 }
