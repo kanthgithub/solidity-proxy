@@ -16,10 +16,10 @@
 2. ArithmeticProxy: ProxyContract
 </ol>
 
-- Step-1: Load Proxy with ABI of Arithmetic and at Address of ArithmeticProxy:
+- Step-1: Load ArithmeticProxy at deployed-Address of ArithmeticProxy with (ABI of Arithmetic) :
 
 ```js
-let arithProxy = new web3.eth.Contract(Arithmetic.abi, ArithmeticProxy.address, {address:ArithmeticProxy.address});
+let arithProxy1 = new web3.eth.Contract(Arithmetic.abi, ArithmeticProxy.address, {address:ArithmeticProxy.address});
 ```
 
 - Step-2: call the arithmetic method add on arithProxy loaded in step-1:
@@ -36,6 +36,14 @@ var result = arithProxy.methods.add(1100,12).call();
 - Deploy Proxy contract with constructor arguments: 
     - constructorData of Upgradeable contract
     - address of Upgradeable Contract
+
+## Loopback ether method:
+
+- function loopbackEther takes ether from sender and returns it back to sender
+
+```js
+arithProxy1.methods.loopbackEther.call({from: web3.eth.getAccounts[0], value: web3.utils.toWei('10','ether')})
+```
 
 ## How to call a function of an Upgradeable contract via Proxy-Contract:
 
