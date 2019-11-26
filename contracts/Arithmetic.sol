@@ -21,4 +21,8 @@ contract Arithmetic {
         emit substractEvent(result,a,b);
         return result;
     }
+
+    function loopbackEther() public payable {
+       msg.sender.transfer(msg.value);
+    }
 }
