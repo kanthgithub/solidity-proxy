@@ -45,12 +45,30 @@ contract ProxyV2{
     function execute(bytes32 contractName, bytes32 functionName, bytes calldata data) external payable {
         assembly { // solium-disable-line
             let contractLogic := 0
+            bytes4 functionHash := 0
             switch(contractName)
                 case "Arithmetic" {
                     contractLogic := sload(0xc5f16f0fcc639fa48a6947836d9850f504798523bf8c9a3a87d5876cf622bcf7)
+                     switch(functionName)
+                            case "add" {
+                                functionHash = bytes4(keccak256("add(uint256,uint256)"))
+                            }    
+                            case "substract" {
+                                functionHash = bytes4(keccak256("substract(uint256,uint256)"))
+                            }
+                            default {
+                               functionHash = bytes4(keccak256("add(uint256,uint256)"))
+                            }
                 }
                 default {
                     contractLogic := sload(0xc5f16f0fcc639fa48a6947836d9850f504798523bf8c9a3a87d5876cf622bcf7)
+                        switch(functionName)
+                            case "loopbackEther" {
+                                functionHash = bytes4(keccak256("loopbackEther()"))
+                            }    
+                           default {
+                                functionHash = bytes4(keccak256("loopbackEther()"))
+                            }
                 }
 
             calldatacopy(0x0, 0x0, calldatasize)
