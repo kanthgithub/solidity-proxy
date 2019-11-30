@@ -60,8 +60,20 @@ contract ProxyV2{
                                functionHash = bytes4(keccak256("add(uint256,uint256)"))
                             }
                 }
+
+                 case "RefundEther" {
+                    contractLogic := sload(0x999802572af9bd298e7e25fe3959ac083d4486b31ed6b1314afdaea9eb9e0def)
+                     switch(functionName)
+                             case "loopbackEther" {
+                                functionHash = bytes4(keccak256("loopbackEther()"))
+                            }    
+                           default {
+                                functionHash = bytes4(keccak256("loopbackEther()"))
+                            }
+                }
+
                 default {
-                    contractLogic := sload(0xc5f16f0fcc639fa48a6947836d9850f504798523bf8c9a3a87d5876cf622bcf7)
+                    contractLogic := sload(0x999802572af9bd298e7e25fe3959ac083d4486b31ed6b1314afdaea9eb9e0def)
                         switch(functionName)
                             case "loopbackEther" {
                                 functionHash = bytes4(keccak256("loopbackEther()"))
@@ -71,10 +83,17 @@ contract ProxyV2{
                             }
                 }
 
+
+            //TODO starts-here 
+            //use calldata argument to function along with functionHash in delegateCall
+
             calldatacopy(0x0, 0x0, calldatasize)
             //bytes4 sig = bytes4(keccak256("add(uint256,uint256)"));
 
             let success := delegatecall(sub(gas, 10000), contractLogic, 0x0, calldatasize, 0, 0)
+            
+            //TODO ends here
+
             let retSz := returndatasize
             returndatacopy(0, 0, retSz)
             switch success
