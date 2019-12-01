@@ -43,9 +43,7 @@ contract ProxyV2{
     }
 
     function execute(bytes32 contractName, bytes32 functionName, bytes calldata data) external payable {
-        
         bytes4 functionHash = 0;
-        bytes4 sig = 0;
 
         assembly { // solium-disable-line
             let contractLogic := 0
