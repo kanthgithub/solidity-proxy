@@ -82,10 +82,15 @@ contract ProxyV2{
                             }
                 }
             calldatacopy(0x0, 0x0, calldatasize)
-            let success := delegatecall(sub(gas, 10000), contractLogic, 0x0, calldatasize, 0, 0)
+
+            let functionHashPointer := mload(0x40) // find empty storage location using "free memory pointer"
+            mstore(functionHashPointer,functionHash) // attach function signature
+            //let success := delegatecall(sub(gas, 10000), contractLogic, 0x0, calldatasize, 0, 0)
+            let status := delegatecall(sub(gas, 10000), contractLogic, add(functionHashPointer, 0x04), 0, functionHashPointer, 0x20)
+            //let result := delegatecall(sub(gas, 10000), contractLogic, add(functionHash, 0x20), mload(functionHash), 0, 0)
             let retSz := returndatasize
             returndatacopy(0, 0, retSz)
-            switch success
+            switch status
             case 0 {
                 revert(0, retSz)
             }
